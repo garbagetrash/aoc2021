@@ -7,5 +7,6 @@ edition = "2021"
 
 [dependencies]
 clap = "*"
+regex = "*"
 aoc-runner = "*"
 aoc-runner-derive = "*"

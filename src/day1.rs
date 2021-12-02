@@ -33,8 +33,8 @@ pub fn part2(input: &[i64]) -> i64 {
     let mut last: i64 = buf.iter().sum();
 
     let mut inc_count = 0;
-    for i in 3..input.len() {
-        buf.push_back(input[i]);
+    for v1 in input.iter().skip(3) {
+        buf.push_back(*v1);
         buf.pop_front();
         let now = buf.iter().sum();
         if now > last {
@@ -53,14 +53,14 @@ mod test {
 
     #[test]
     fn test_part1() {
-        let input = read_to_string("input/2021/01a.txt").unwrap();
+        let input = read_to_string("input/2021/01.txt").unwrap();
         let input = load_input(&input);
         assert_eq!(part1(&input), 7);
     }
 
     #[test]
     fn test_part2() {
-        let input = read_to_string("input/2021/01a.txt").unwrap();
+        let input = read_to_string("input/2021/01.txt").unwrap();
         let input = load_input(&input);
         assert_eq!(part2(&input), 5);
     }
