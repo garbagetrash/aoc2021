@@ -6,7 +6,6 @@ pub struct Board {
 
 impl Board {
     pub fn mark(&mut self, value: u8) -> Option<i64> {
-
         // Put marker on
         for (i, row) in self.rows.iter().enumerate() {
             for (j, rv) in row.iter().enumerate() {
@@ -59,33 +58,30 @@ impl Board {
 #[aoc_generator(day4)]
 pub fn load_input(input: &str) -> (Vec<u8>, Vec<Board>) {
     let inputs = input.lines().next().unwrap();
-    let inputs: Vec<_> = inputs.split(',').map(|x| x.parse::<u8>().unwrap()).collect();
+    let inputs: Vec<_> = inputs
+        .split(',')
+        .map(|x| x.parse::<u8>().unwrap())
+        .collect();
 
     let markers = [[0u8; 5]; 5];
     let mut boards = vec![];
     let mut rows = [[0u8; 5]; 5];
     let mut rcntr = 0;
     for line in input.lines().skip(2) {
-
-        if line != "" {
+        if !line.is_empty() {
             let mut cntr = 0;
-            for (i, value) in line.split(' ').enumerate() {
+            for value in line.split(' ') {
                 if let Ok(num) = value.parse::<u8>() {
                     rows[rcntr][cntr] = num;
                     cntr += 1;
-                } else {
-                    // Skip empty spaces
                 }
             }
             rcntr += 1;
 
             if rcntr == 5 {
                 boards.push(Board { rows, markers });
-                let mut rows = [[0u8; 5]; 5];
                 rcntr = 0;
             }
-        } else {
-            // skip \n
         }
     }
 
@@ -113,10 +109,10 @@ pub fn part2(input: &(Vec<u8>, Vec<Board>)) -> i64 {
 
     let mut flags = vec![1; boards.len()];
 
-    let mut idx: i64 = -1;
+    let mut idx = 0;
     for value in &input.0 {
         for (i, board) in boards.iter_mut().enumerate() {
-            if let Some(win) = board.mark(*value) {
+            if board.mark(*value).is_some() {
                 flags[i] = 0;
             }
         }
@@ -125,13 +121,13 @@ pub fn part2(input: &(Vec<u8>, Vec<Board>)) -> i64 {
         let cntr: usize = flags.iter().sum();
         if cntr == 1 {
             // Grab its index, break out of loop
-            idx = flags.iter().position(|&x| x == 1).unwrap() as i64;
+            idx = flags.iter().position(|&x| x == 1).unwrap();
             break;
         }
     }
 
     boards = input.1.clone();
-    let mut board = boards[idx as usize];
+    let mut board = boards[idx];
     for value in &input.0 {
         if let Some(win) = board.mark(*value) {
             return win;
