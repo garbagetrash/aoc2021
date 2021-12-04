@@ -120,22 +120,20 @@ pub fn part2(input: &(Vec<u8>, Vec<Board>)) -> i64 {
                 flags[i] = 0;
             }
         }
-        let cntr: usize = flags.iter().sum();
 
+        // Detect if only 1 board left
+        let cntr: usize = flags.iter().sum();
         if cntr == 1 {
-            for (i, c) in flags.iter().enumerate() {
-                if *c == 1 {
-                    idx = i as i64;
-                    break;
-                }
-            }
+            // Grab its index, break out of loop
+            idx = flags.iter().position(|&x| x == 1).unwrap() as i64;
             break;
         }
     }
 
     boards = input.1.clone();
+    let mut board = boards[idx as usize];
     for value in &input.0 {
-        if let Some(win) = boards[idx as usize].mark(*value) {
+        if let Some(win) = board.mark(*value) {
             return win;
         }
     }
@@ -159,6 +157,6 @@ mod test {
     fn test_part2() {
         let input = read_to_string("input/2021/04.txt").unwrap();
         let input = load_input(&input);
-        assert_eq!(part2(&input), 230);
+        assert_eq!(part2(&input), 1924);
     }
 }
