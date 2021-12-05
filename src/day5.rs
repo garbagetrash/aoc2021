@@ -5,6 +5,7 @@ pub struct Segment {
 }
 
 impl Segment {
+    #[allow(clippy::needless_range_loop)]
     pub fn fill(&self, board: &mut Vec<Vec<usize>>, part2: bool) {
         if self.p1.0 == self.p2.0 {
             // Horizontal line
@@ -67,6 +68,7 @@ pub fn load_input(input: &str) -> Vec<Segment> {
     output
 }
 
+#[allow(clippy::needless_range_loop)]
 pub fn count_board(board: &[Vec<usize>]) -> usize {
     let mut total = 0;
     for x in 0..1000 {
