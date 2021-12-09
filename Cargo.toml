@@ -12,3 +12,4 @@ aoc-runner = "*"
 aoc-runner-derive = "*"
 aoc-helpers = { git = "https://bitbucket.org/auralgeek/aoc-helpers.git" }
 rayon = "*"
+termion = "*"
