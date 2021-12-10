@@ -1,10 +1,8 @@
+use rayon::prelude::*;
+
 #[aoc_generator(day10)]
 pub fn load_input(input: &str) -> Vec<String> {
-    let mut output = vec![];
-    for line in input.lines() {
-        output.push(String::from(line));
-    }
-    output
+    input.lines().par_bridge().map(String::from).collect()
 }
 
 #[aoc(day10, part1)]
@@ -37,52 +35,60 @@ pub fn part1(input: &[String]) -> i64 {
 }
 
 #[allow(clippy::if_same_then_else)]
-#[aoc(day10, part2)]
-pub fn part2(input: &[String]) -> i64 {
-    let mut scores = vec![];
-    for line in input {
-        let mut stack = vec![];
-        let mut corrupt = false;
-        for c in line.chars() {
-            if c == '(' || c == '[' || c == '{' || c == '<' {
-                stack.push(c);
-            } else {
-                let last = stack.pop().unwrap();
-                if c == ')' && last != '(' {
-                    corrupt = true;
-                    break;
-                } else if c == ']' && last != '[' {
-                    corrupt = true;
-                    break;
-                } else if c == '}' && last != '{' {
-                    corrupt = true;
-                    break;
-                } else if c == '>' && last != '<' {
-                    corrupt = true;
-                    break;
-                }
+fn solve_line(line: &String) -> Option<i64> {
+    let mut stack = vec![];
+    let mut corrupt = false;
+    for c in line.chars() {
+        if c == '(' || c == '[' || c == '{' || c == '<' {
+            stack.push(c);
+        } else {
+            let last = stack.pop().unwrap();
+            if c == ')' && last != '(' {
+                corrupt = true;
+                break;
+            } else if c == ']' && last != '[' {
+                corrupt = true;
+                break;
+            } else if c == '}' && last != '{' {
+                corrupt = true;
+                break;
+            } else if c == '>' && last != '<' {
+                corrupt = true;
+                break;
             }
-        }
-
-        if !corrupt {
-            // If we get here then incomplete line
-            let mut score = 0;
-            let rev_stack: Vec<_> = stack.iter().rev().collect();
-            for c in rev_stack {
-                score *= 5;
-                if *c == '(' {
-                    score += 1;
-                } else if *c == '[' {
-                    score += 2;
-                } else if *c == '{' {
-                    score += 3;
-                } else if *c == '<' {
-                    score += 4;
-                }
-            }
-            scores.push(score);
         }
     }
+
+    if !corrupt {
+        // If we get here then incomplete line
+        let mut score = 0;
+        let rev_stack: Vec<_> = stack.iter().rev().collect();
+        for c in rev_stack {
+            score *= 5;
+            if *c == '(' {
+                score += 1;
+            } else if *c == '[' {
+                score += 2;
+            } else if *c == '{' {
+                score += 3;
+            } else if *c == '<' {
+                score += 4;
+            }
+        }
+        Some(score)
+    } else {
+        None
+    }
+}
+
+#[aoc(day10, part2)]
+pub fn part2(input: &[String]) -> i64 {
+    let mut scores: Vec<_> = input
+        .par_iter()
+        .map(solve_line)
+        .filter(|x| x.is_some())
+        .map(|x| x.unwrap())
+        .collect();
     scores.sort_unstable();
     let n = scores.len();
     scores[(n / 2) as usize]
