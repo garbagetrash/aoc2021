@@ -1,5 +1,5 @@
-use std::collections::{HashMap, HashSet};
 use rayon::prelude::*;
+use std::collections::{HashMap, HashSet};
 
 #[allow(clippy::comparison_to_empty)]
 #[aoc_generator(day8)]
@@ -151,7 +151,7 @@ pub fn do_word(s: &(Vec<String>, Vec<String>)) -> i64 {
 
 #[aoc(day8, part2)]
 pub fn part2(input: &[(Vec<String>, Vec<String>)]) -> i64 {
-    input.par_iter().map(|s| do_word(s)).sum()
+    input.par_iter().map(do_word).sum()
 }
 
 #[cfg(test)]
