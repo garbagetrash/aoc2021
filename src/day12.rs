@@ -108,7 +108,7 @@ impl CaveSystem {
 }
 
 pub fn visited_any_twice(path: &Vec<String>) -> bool {
-    for (i , c) in path.iter().enumerate() {
+    for (i, c) in path.iter().enumerate() {
         for (j, other) in path.iter().enumerate() {
             if c == other && i != j && Cave::new(c).size == Size::Small {
                 return true;
@@ -162,7 +162,11 @@ pub fn load_input(input: &str) -> CaveSystem {
 pub fn part1(input: &CaveSystem) -> usize {
     let cs = input.clone();
     let mut paths = cs.traverse(vec!["start".to_string()]);
-    paths = paths.iter().filter(|p| p[p.len() - 1] == "end").map(|p| (*p).clone()).collect();
+    paths = paths
+        .iter()
+        .filter(|p| p[p.len() - 1] == "end")
+        .map(|p| (*p).clone())
+        .collect();
     paths.len()
 }
 
@@ -170,7 +174,11 @@ pub fn part1(input: &CaveSystem) -> usize {
 pub fn part2(input: &CaveSystem) -> usize {
     let cs = input.clone();
     let mut paths = cs.traverse2(vec!["start".to_string()]);
-    paths = paths.iter().filter(|p| p[p.len() - 1] == "end").map(|p| (*p).clone()).collect();
+    paths = paths
+        .iter()
+        .filter(|p| p[p.len() - 1] == "end")
+        .map(|p| (*p).clone())
+        .collect();
     paths.len()
 }
 

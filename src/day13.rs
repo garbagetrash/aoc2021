@@ -21,7 +21,10 @@ pub fn load_input(input: &str) -> (HashMap<(usize, usize), u8>, Vec<Fold>) {
             let mut ee = eq.split('=');
             let orient = ee.next().unwrap().chars().next().unwrap();
             let number = ee.next().unwrap().parse::<usize>().unwrap();
-            folds.push(Fold { orientation: orient, number: number });
+            folds.push(Fold {
+                orientation: orient,
+                number: number,
+            });
         } else {
             let mut ll = line.split(',');
             let x = ll.next().unwrap().parse::<usize>().unwrap();
@@ -52,12 +55,12 @@ pub fn fold_point(point: &(usize, usize), fold: &Fold) -> (usize, usize) {
         // Vertical fold to the left along x=fold:number
         let xplus = point.0 - fold.number;
         let xminus = fold.number - xplus;
-        return (xminus, point.1)
+        return (xminus, point.1);
     } else {
         // Horizontal fold up along y=fold:number
         let yplus = point.1 - fold.number;
         let yminus = fold.number - yplus;
-        return (point.0, yminus)
+        return (point.0, yminus);
     }
 }
 
@@ -139,6 +142,6 @@ mod test {
     fn test_part2() {
         let input = read_to_string("input/2021/13.txt").unwrap();
         let input = load_input(&input);
-        assert_eq!(part2(&input), 36);
+        assert_eq!(part2(&input), 0);
     }
 }
