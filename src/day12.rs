@@ -170,6 +170,7 @@ pub fn part1(input: &CaveSystem) -> usize {
 
 #[aoc(day12, part2)]
 pub fn part2(input: &CaveSystem) -> usize {
+    // answer is 92111
     let mut paths = input.traverse2(vec!["start".to_string()]);
     paths = paths
         .iter()
