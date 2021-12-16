@@ -1,5 +1,4 @@
 use nalgebra::*;
-use rayon::prelude::*;
 use std::collections::{HashMap, HashSet};
 
 pub struct InputData(
@@ -9,7 +8,7 @@ pub struct InputData(
 
 #[aoc_generator(day14)]
 pub fn load_input(input: &str) -> InputData {
-    let mut seed = input.lines().next().unwrap().chars().collect();
+    let seed = input.lines().next().unwrap().chars().collect();
     let mut mapping = HashMap::<(char, char), ((char, char), (char, char))>::new();
     for line in input.lines().skip(2) {
         let mut iter = line.split(" -> ");
@@ -83,7 +82,6 @@ pub fn part1(input: &InputData) -> usize {
     if let Some(value) = charcounts.get_mut(&input.0[input.0.len() - 1]) {
         *value += 1;
     }
-    let total_chars: usize = charcounts.values().sum();
     charcounts.values().max().unwrap() - charcounts.values().min().unwrap()
 }
 

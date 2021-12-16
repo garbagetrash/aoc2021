@@ -1,5 +1,3 @@
-use rayon::prelude::*;
-
 struct Board {
     counter: Vec<Vec<u32>>,
     flash: [[bool; 10]; 10],
@@ -18,15 +16,6 @@ impl Board {
             for col in row {
                 *col += 1;
             }
-        }
-    }
-
-    pub fn print_board(&self) {
-        for row in &self.counter {
-            for col in row {
-                print!("{} ", col);
-            }
-            println!("");
         }
     }
 
@@ -140,7 +129,7 @@ pub fn part1(input: &Vec<Vec<u32>>) -> usize {
     let mut score = 0;
     let mut board = Board::new(input);
 
-    for i in 0..100 {
+    for _ in 0..100 {
         //board.print_board();
         board.increment();
         //board.print_board();

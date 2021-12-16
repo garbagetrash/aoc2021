@@ -1,4 +1,3 @@
-use rayon::prelude::*;
 use std::collections::HashMap;
 
 #[derive(Clone, Debug)]
@@ -50,7 +49,6 @@ pub fn get_max(board: &HashMap<(usize, usize), u8>) -> usize {
 }
 
 pub fn fold_point(point: &(usize, usize), fold: &Fold) -> (usize, usize) {
-    let number = fold.number;
     if fold.orientation == 'x' {
         // Vertical fold to the left along x=fold:number
         let xplus = point.0 - fold.number;
@@ -96,7 +94,7 @@ pub fn count_dots(board: &HashMap<(usize, usize), u8>) -> usize {
 pub fn print_paper(board: &HashMap<(usize, usize), u8>) {
     for y in 0..10 {
         for x in 0..64 {
-            if let Some(value) = board.get(&(x, y)) {
+            if board.get(&(x, y)).is_some() {
                 print!("#");
             } else {
                 print!(" ");
