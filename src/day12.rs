@@ -65,7 +65,7 @@ impl CaveSystem {
         let start_conns = self.neighbors(&path[path.len() - 1]);
         let valid_choices: Vec<String> = start_conns
             .iter()
-            .filter(|c| can_visit(&path, &c))
+            .filter(|c| can_visit(&path, c))
             .map(|x| (*x).clone())
             .collect();
         let mut paths = vec![path.clone()];
@@ -87,7 +87,7 @@ impl CaveSystem {
         let start_conns = self.neighbors(&path[path.len() - 1]);
         let valid_choices: Vec<String> = start_conns
             .iter()
-            .filter(|c| can_visit2(&path, &c))
+            .filter(|c| can_visit2(&path, c))
             .map(|x| (*x).clone())
             .collect();
         let mut paths = vec![path.clone()];
@@ -106,7 +106,7 @@ impl CaveSystem {
     }
 }
 
-pub fn visited_any_twice(path: &Vec<String>) -> bool {
+pub fn visited_any_twice(path: &[String]) -> bool {
     for (i, c) in path.iter().enumerate() {
         for (j, other) in path.iter().enumerate() {
             if c == other && i != j && Cave::new(c).size == Size::Small {
@@ -117,7 +117,7 @@ pub fn visited_any_twice(path: &Vec<String>) -> bool {
     false
 }
 
-pub fn can_visit(path: &Vec<String>, cave: &str) -> bool {
+pub fn can_visit(path: &[String], cave: &str) -> bool {
     for c in path {
         if cave == c && Cave::new(cave).size == Size::Small {
             return false;
@@ -126,7 +126,7 @@ pub fn can_visit(path: &Vec<String>, cave: &str) -> bool {
     true
 }
 
-pub fn can_visit2(path: &Vec<String>, cave: &str) -> bool {
+pub fn can_visit2(path: &[String], cave: &str) -> bool {
     if visited_any_twice(path) {
         for c in path {
             if cave == c && Cave::new(cave).size == Size::Small {
@@ -159,8 +159,7 @@ pub fn load_input(input: &str) -> CaveSystem {
 
 #[aoc(day12, part1)]
 pub fn part1(input: &CaveSystem) -> usize {
-    let cs = input.clone();
-    let mut paths = cs.traverse(vec!["start".to_string()]);
+    let mut paths = input.traverse(vec!["start".to_string()]);
     paths = paths
         .iter()
         .filter(|p| p[p.len() - 1] == "end")
@@ -171,8 +170,7 @@ pub fn part1(input: &CaveSystem) -> usize {
 
 #[aoc(day12, part2)]
 pub fn part2(input: &CaveSystem) -> usize {
-    let cs = input.clone();
-    let mut paths = cs.traverse2(vec!["start".to_string()]);
+    let mut paths = input.traverse2(vec!["start".to_string()]);
     paths = paths
         .iter()
         .filter(|p| p[p.len() - 1] == "end")

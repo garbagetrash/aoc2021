@@ -23,7 +23,7 @@ pub fn load_input(input: &str) -> InputData {
     InputData(seed, mapping)
 }
 
-pub fn create_input_vector(input: &Vec<char>, pairvec: &Vec<(char, char)>) -> Vec<usize> {
+pub fn create_input_vector(input: &[char], pairvec: &[(char, char)]) -> Vec<usize> {
     // Create vector of pairs in the input sequence
     let mut inpairs = vec![];
     for i in 0..input.len() - 1 {
@@ -64,7 +64,7 @@ pub fn part1(input: &InputData) -> usize {
 
     let mut outmat = pairmatrix.clone();
     for _ in 1..10 {
-        outmat = outmat * pairmatrix.clone();
+        outmat *= pairmatrix.clone();
     }
 
     let input_vector = DVector::from_vec(create_input_vector(&input.0, &pairvec));
@@ -110,7 +110,7 @@ pub fn part2(input: &InputData) -> usize {
 
     let mut outmat = pairmatrix.clone();
     for _ in 1..40 {
-        outmat = outmat * pairmatrix.clone();
+        outmat *= pairmatrix.clone();
     }
 
     let input_vector = DVector::from_vec(create_input_vector(&input.0, &pairvec));

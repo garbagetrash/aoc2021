@@ -22,7 +22,7 @@ pub fn load_input(input: &str) -> (HashMap<(usize, usize), u8>, Vec<Fold>) {
             let number = ee.next().unwrap().parse::<usize>().unwrap();
             folds.push(Fold {
                 orientation: orient,
-                number: number,
+                number,
             });
         } else {
             let mut ll = line.split(',');
@@ -53,12 +53,12 @@ pub fn fold_point(point: &(usize, usize), fold: &Fold) -> (usize, usize) {
         // Vertical fold to the left along x=fold:number
         let xplus = point.0 - fold.number;
         let xminus = fold.number - xplus;
-        return (xminus, point.1);
+        (xminus, point.1)
     } else {
         // Horizontal fold up along y=fold:number
         let yplus = point.1 - fold.number;
         let yminus = fold.number - yplus;
-        return (point.0, yminus);
+        (point.0, yminus)
     }
 }
 
@@ -71,12 +71,10 @@ pub fn do_fold(board: &mut HashMap<(usize, usize), u8>, fold: &Fold) {
                 board.remove(&point);
                 board.insert(new_point, 1);
             }
-        } else {
-            if point.1 > fold.number {
-                let new_point = fold_point(&point, &fold);
-                board.remove(&point);
-                board.insert(new_point, 1);
-            }
+        } else if point.1 > fold.number {
+            let new_point = fold_point(&point, &fold);
+            board.remove(&point);
+            board.insert(new_point, 1);
         }
     }
 }
@@ -100,7 +98,7 @@ pub fn print_paper(board: &HashMap<(usize, usize), u8>) {
                 print!(" ");
             }
         }
-        println!("");
+        println!();
     }
 }
 

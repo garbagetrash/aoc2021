@@ -4,9 +4,9 @@ struct Board {
 }
 
 impl Board {
-    pub fn new(counter: &Vec<Vec<u32>>) -> Board {
+    pub fn new(counter: &[Vec<u32>]) -> Board {
         Board {
-            counter: counter.clone(),
+            counter: counter.to_vec(),
             flash: [[false; 10]; 10],
         }
     }
@@ -125,7 +125,7 @@ fn get_neighbors(point: (usize, usize)) -> Vec<(usize, usize)> {
 }
 
 #[aoc(day11, part1)]
-pub fn part1(input: &Vec<Vec<u32>>) -> usize {
+pub fn part1(input: &[Vec<u32>]) -> usize {
     let mut score = 0;
     let mut board = Board::new(input);
 
@@ -140,7 +140,7 @@ pub fn part1(input: &Vec<Vec<u32>>) -> usize {
 }
 
 #[aoc(day11, part2)]
-pub fn part2(input: &Vec<Vec<u32>>) -> usize {
+pub fn part2(input: &[Vec<u32>]) -> usize {
     let mut board = Board::new(input);
     let mut idx = 0;
     loop {

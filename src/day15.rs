@@ -28,9 +28,9 @@ struct Explorer {
 }
 
 impl Explorer {
-    pub fn new(map: &Vec<Vec<u32>>) -> Explorer {
+    pub fn new(map: &[Vec<u32>]) -> Explorer {
         Explorer {
-            map: map.clone(),
+            map: map.to_vec(),
             costmap: HashMap::new(),
         }
     }
@@ -43,10 +43,10 @@ impl Explorer {
         self.costmap.insert(start_point, 0);
 
         // Now we consider each point in frontier, start
-        while frontier.len() > 0 {
+        while !frontier.is_empty() {
             // Grab the lowest cost frontier points first
             let mut cost_arr: Vec<_> = frontier.values().copied().collect();
-            cost_arr.sort();
+            cost_arr.sort_unstable();
             let mut point = *frontier.keys().next().unwrap();
             for (k, v) in frontier.iter() {
                 if *v == cost_arr[0] {
@@ -77,7 +77,7 @@ impl Explorer {
     }
 }
 
-fn get_neighbors(point: (u32, u32), map: &Vec<Vec<u32>>) -> Vec<(u32, u32)> {
+fn get_neighbors(point: (u32, u32), map: &[Vec<u32>]) -> Vec<(u32, u32)> {
     let mut points = vec![];
     if point.0 > 0 {
         points.push((point.0 - 1, point.1));
@@ -96,7 +96,7 @@ fn get_neighbors(point: (u32, u32), map: &Vec<Vec<u32>>) -> Vec<(u32, u32)> {
 }
 
 #[aoc(day15, part1)]
-pub fn part1(input: &Vec<Vec<u32>>) -> u32 {
+pub fn part1(input: &[Vec<u32>]) -> u32 {
     // 748 is answer
     let mut explorer = Explorer::new(input);
     let goal = ((input.len() - 1) as u32, (input[0].len() - 1) as u32);
@@ -104,7 +104,7 @@ pub fn part1(input: &Vec<Vec<u32>>) -> u32 {
 }
 
 #[aoc(day15, part2)]
-pub fn part2(input: &Vec<Vec<u32>>) -> u32 {
+pub fn part2(input: &[Vec<u32>]) -> u32 {
     // Build new map
     // Answer: 3045
     let rx = input.len();
