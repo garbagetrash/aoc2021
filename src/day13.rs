@@ -67,12 +67,12 @@ pub fn do_fold(board: &mut HashMap<(usize, usize), u8>, fold: &Fold) {
     for point in keys {
         if fold.orientation == 'x' {
             if point.0 > fold.number {
-                let new_point = fold_point(&point, &fold);
+                let new_point = fold_point(&point, fold);
                 board.remove(&point);
                 board.insert(new_point, 1);
             }
         } else if point.1 > fold.number {
-            let new_point = fold_point(&point, &fold);
+            let new_point = fold_point(&point, fold);
             board.remove(&point);
             board.insert(new_point, 1);
         }

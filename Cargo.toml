@@ -14,3 +14,4 @@ aoc-helpers = { git = "https://bitbucket.org/auralgeek/aoc-helpers.git" }
 rayon = "*"
 termion = "*"
 nalgebra = "*"
+itertools = "*"

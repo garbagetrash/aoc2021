@@ -26,7 +26,7 @@ impl Cave {
         }
         Cave {
             name: String::from(name),
-            size: size,
+            size,
         }
     }
 }
@@ -36,6 +36,12 @@ pub struct CaveSystem {
     pub caves: HashSet<Cave>,
     pub edges: HashSet<Edge>,
     pub count_map: HashMap<String, usize>,
+}
+
+impl Default for CaveSystem {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl CaveSystem {

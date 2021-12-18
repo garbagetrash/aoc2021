@@ -13,15 +13,6 @@ pub fn load_input(input: &str) -> Vec<Vec<u32>> {
     output
 }
 
-pub fn print_board(input: &[Vec<u32>]) {
-    for row in input {
-        for col in row {
-            print!("{:?}", col);
-        }
-        println!("");
-    }
-}
-
 struct Explorer {
     map: Vec<Vec<u32>>,
     costmap: HashMap<(u32, u32), u32>,
@@ -103,6 +94,7 @@ pub fn part1(input: &[Vec<u32>]) -> u32 {
     explorer.explore2(goal)
 }
 
+#[allow(clippy::needless_range_loop)]
 #[aoc(day15, part2)]
 pub fn part2(input: &[Vec<u32>]) -> u32 {
     // Build new map

@@ -1,6 +1,7 @@
 use nalgebra::*;
 use std::collections::{HashMap, HashSet};
 
+#[allow(clippy::type_complexity)]
 pub struct InputData(
     Vec<char>,
     HashMap<(char, char), ((char, char), (char, char))>,

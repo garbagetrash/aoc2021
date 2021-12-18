@@ -34,6 +34,7 @@ pub fn part1(input: &[String]) -> i64 {
     score
 }
 
+#[allow(clippy::ptr_arg)]
 #[allow(clippy::if_same_then_else)]
 fn solve_line(line: &String) -> Option<i64> {
     let mut stack = vec![];
