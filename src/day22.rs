@@ -25,11 +25,7 @@ impl Cube {
     fn intersect(&self, other: Cube) -> Option<Cube> {
         if let Some(xint) = intersect_1d(self.xvalues, other.xvalues) {
             if let Some(yint) = intersect_1d(self.yvalues, other.yvalues) {
-                if let Some(zint) = intersect_1d(self.zvalues, other.zvalues) {
-                    Some(Cube::new(xint, yint, zint))
-                } else {
-                    None
-                }
+                intersect_1d(self.zvalues, other.zvalues).map(|zint| Cube::new(xint, yint, zint))
             } else {
                 None
             }
@@ -91,7 +87,7 @@ fn cube_sum(cube1: Cube, cube2: Cube) -> Vec<Cube> {
 fn add_cube_to_set(cube: Cube, cubeset: &mut HashSet<Cube>) {
     let mut cubes_to_update = vec![];
     for sub_cube in cubeset.iter() {
-        if let Some(_) = cube.intersect(*sub_cube) {
+        if cube.intersect(*sub_cube).is_some() {
             cubes_to_update.push(sub_cube);
         }
     }
@@ -99,21 +95,16 @@ fn add_cube_to_set(cube: Cube, cubeset: &mut HashSet<Cube>) {
     // Now that we know which cubes intersect our new one, break him up and add
     // all the sub cubes to cubeset.
     let mut cubes_to_add = vec![cube];
-    loop {
-        if let Some(sub_cube) = cubes_to_update.pop() {
-            let mut cubes_to_add_next = vec![];
-            for add_cube in cubes_to_add {
-                let cubes = cube_sum(*sub_cube, add_cube);
-                let cubes: Vec<_> = cubes.iter().skip(1).collect();
-                for &c in cubes {
-                    cubes_to_add_next.push(c);
-                }
+    while let Some(sub_cube) = cubes_to_update.pop() {
+        let mut cubes_to_add_next = vec![];
+        for add_cube in cubes_to_add {
+            let cubes = cube_sum(*sub_cube, add_cube);
+            let cubes: Vec<_> = cubes.iter().skip(1).collect();
+            for &c in cubes {
+                cubes_to_add_next.push(c);
             }
-            cubes_to_add = cubes_to_add_next;
-        } else {
-            // No more cubes to break up new one by
-            break;
         }
+        cubes_to_add = cubes_to_add_next;
     }
 
     for add_cube in cubes_to_add {
@@ -141,7 +132,7 @@ fn cube_difference(cube1: Cube, cube2: Cube) -> Vec<Cube> {
 fn remove_cube_from_set(cube: Cube, cubeset: &mut HashSet<Cube>) {
     let mut cubes_to_update = vec![];
     for sub_cube in cubeset.iter() {
-        if let Some(_) = cube.intersect(*sub_cube) {
+        if cube.intersect(*sub_cube).is_some() {
             cubes_to_update.push(*sub_cube);
         }
     }
@@ -247,7 +238,7 @@ fn load_input(input: &str) -> Vec<Instruction> {
 fn part1(input: &[Instruction]) -> usize {
     let mut on_set: HashSet<Cube> = HashSet::new();
 
-    for inst in input.into_iter().take(20) {
+    for inst in input.iter().take(20) {
         if inst.turn_on {
             add_cube_to_set(inst.cube, &mut on_set);
         } else {

@@ -71,6 +71,7 @@ fn enhance_pixel(pixel: (i32, i32), key: &[u8], map: &HashMap<(i32, i32), u8>, t
     key[number]
 }
 
+#[allow(dead_code)]
 fn print_board(map: &HashMap<(i32, i32), u8>) {
     for y in -40..50 {
         for x in -40..50 {
