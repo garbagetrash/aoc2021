@@ -1,3 +1,17 @@
+/* This one boiled down to reversing the input.  My rules were:
+ *
+ * w5=w4
+ * w7=w6-4
+ * w8=w3-1
+ * w10=w9+7
+ * w11=w2-6
+ * w12=w1+6
+ * w13=w0+4
+ *
+ * For most significant digit w0, and least significant digit w13, ie
+ * input = [w0 w1 w2 w3 w4 w5 w6 w7 w8 w9 w10 w11 w12 w13]
+ */
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 enum InstructionType {
     Inp,

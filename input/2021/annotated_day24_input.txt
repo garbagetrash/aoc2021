@@ -1,0 +1,252 @@
+inp w      ##   1
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 15  can't hit this
+eql x w
+eql x 0  x=1
+mul y 0
+add y 25
+mul y x
+add y 1  y = 26
+mul z y  z = 0
+mul y 0
+add y w
+add y 13
+mul y x   y=w0 + 13
+add z y   z=w0 + 13
+inp w     ##   2
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 10
+eql x w   can't hit this
+eql x 0   x=1
+mul y 0
+add y 25
+mul y x
+add y 1  y = 26
+mul z y  z = 26 * (w0 + 13)
+mul y 0
+add y w
+add y 16  y=w1 + 16
+mul y x   y=w1 + 16
+add z y   z=26*(w0 + 13) + w1 + 16
+inp w     ##   3
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 12  can't hit this
+eql x w
+eql x 0   x=1
+mul y 0
+add y 25
+mul y x
+add y 1   y=26
+mul z y   z=26*(26*(w0 + 13) + w1 + 16)
+mul y 0
+add y w
+add y 2
+mul y x   y = w2 + 2
+add z y   z = 26*(26*(w0 + 13) + w1 + 16) + w2 + 2
+inp w     ##   4
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 10   can't hit this
+eql x w
+eql x 0   x=1
+mul y 0
+add y 25
+mul y x
+add y 1   y=26
+mul z y   z = 26*(26*(26*(w0 + 13) + w1 + 16) + w2 + 2)
+mul y 0
+add y w
+add y 8
+mul y x   y = w3 + 8
+add z y   z = 26*(26*(26*(w0 + 13) + w1 + 16) + w2 + 2) + w3 + 8
+inp w    ##   5
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 14  can't hit this
+eql x w
+eql x 0   x=1
+mul y 0
+add y 25
+mul y x
+add y 1   y=26
+mul z y   z = 26*(26*(26*(26*(w0 + 13) + w1 + 16) + w2 + 2) + w3 + 8)
+mul y 0
+add y w
+add y 11
+mul y x   y = w4 + 11
+add z y   z = 26*(26*(26*(26*(w0 + 13) + w1 + 16) + w2 + 2) + w3 + 8) + w4 + 11
+inp w     ##   6
+mul x 0
+add x z     x = z
+mod x 26    x = w4 + 11
+div z 26    z = 26*(26*(26*(w0 + 13) + w1 + 16) + w2 + 2) + w3 + 8
+add x -11   x = w4
+eql x w   <--- can we trip this? YES when w5=w4
+eql x 0     x = 0,1 (our choice)
+mul y 0
+add y 25
+mul y x
+add y 1  y=25x+1, x=0,1
+mul z y  z *= y  we can set y = 1 or 26 here... what do? Choose y = 1 for funsies.
+mul y 0
+add y w
+add y 6   y = w5 + 6
+mul y x   OR y = 0 if we want? yes for now.
+add z y   z = 26*(26*(26*(w0 + 13) + w1 + 16) + w2 + 2) + w3 + 8
+inp w     ##   7
+mul x 0
+add x z
+mod x 26  x=(z%26)
+div z 1
+add x 10
+eql x w   can't hit this one
+eql x 0   x=1
+mul y 0
+add y 25
+mul y x
+add y 1   y=26
+mul z y   z = 26*(26*(26*(26*(w0 + 13) + w1 + 16) + w2 + 2) + w3 + 8)
+mul y 0
+add y w
+add y 12
+mul y x   y = w6 + 12
+add z y   z = 26*(26*(26*(26*(w0 + 13) + w1 + 16) + w2 + 2) + w3 + 8) + w6 + 12
+inp w       ##   8
+mul x 0
+add x z
+mod x 26    x = w6 + 12
+div z 26    z = 26*(26*(26*(w0 + 13) + w1 + 16) + w2 + 2) + w3 + 8
+add x -16   x = w6 - 4
+eql x w     Hit this with w7 = w6 - 4
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1     y=1
+mul z y     z=z
+mul y 0
+add y w
+add y 2
+mul y x     y=0
+add z y     z = 26*(26*(26*(w0 + 13) + w1 + 16) + w2 + 2) + w3 + 8
+inp w      ##   9
+mul x 0
+add x z
+mod x 26    x = w3 + 8
+div z 26    z = 26*(26*(w0 + 13) + w1 + 16) + w2 + 2
+add x -9    x = w3 - 1
+eql x w     hit this with w8 = w3 - 1
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1    y = 1
+mul z y    z = z
+mul y 0
+add y w
+add y 2
+mul y x    y = 0
+add z y    z = 26*(26*(w0 + 13) + w1 + 16) + w2 + 2
+inp w        ##   10
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 11
+eql x w     can't this this
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1    y = 26
+mul z y    z = 26*(26*(26*(w0 + 13) + w1 + 16) + w2 + 2)
+mul y 0
+add y w
+add y 15
+mul y x    y = w9 + 15
+add z y    z = 26*(26*(26*(w0 + 13) + w1 + 16) + w2 + 2) + w9 + 15
+inp w      ##   11
+mul x 0
+add x z
+mod x 26   x = w9 + 15
+div z 26   z = 26*(26*(w0 + 13) + w1 + 16) + w2 + 2
+add x -8   x = w9 + 7
+eql x w    hit this with x10 = w9 + 7
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1    y = 1
+mul z y    z = z
+mul y 0
+add y w
+add y 1
+mul y x    y = 0
+add z y    z = 26*(26*(w0 + 13) + w1 + 16) + w2 + 2
+inp w      ##   12
+mul x 0
+add x z
+mod x 26   x = w2 + 2
+div z 26   z = 26*(w0 + 13) + w1 + 16
+add x -8   x = w2 - 6
+eql x w    hit this with w11 = w2 - 6
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1    y = 1
+mul z y    z = z
+mul y 0
+add y w
+add y 10
+mul y x    y = 0
+add z y    z = 26*(w0 + 13) + w1 + 16
+inp w       ##   13
+mul x 0
+add x z
+mod x 26     x = w1 + 16
+div z 26     z = w0 + 13
+add x -10    x = w1 + 6
+eql x w      hit this with w12 = w1 + 6
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1      y = 1
+mul z y      z = z
+mul y 0
+add y w
+add y 14
+mul y x      y = 0
+add z y      z = w0 + 13
+inp w        ##  14
+mul x 0
+add x z
+mod x 26     x = w0 + 13
+div z 26     z = 0
+add x -9     x = w0 + 4
+eql x w      hit this with w13 = w0 + 4
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1      y = 1
+mul z y      z = 0
+mul y 0
+add y w
+add y 10
+mul y x      y = 0
+add z y      z = 0
